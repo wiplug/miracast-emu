@@ -9,6 +9,7 @@
 #include "live555/liveMedia/our_md5.h"
 #include <time.h>
 #include <cstring>
+#include <algorithm>
 #include <cassert>
 
 #define USERAGENT "wfdemu"
@@ -1399,6 +1400,7 @@ void WFDSink::startPlay() {
 Boolean WFDSink::handleSETUPResponse(MediaSubsession& subsession, char const* sessionParamsStr, char const* transportParamsStr,
                                         Boolean streamUsingTCP) {
   sendPLAYCommand(subsession, NULL, 1, 1, 1, NULL);
+  return True;
   /*char* sessionId = new char[responseBufferSize]; // ensures we have enough space
   Boolean success = False;
   do {
@@ -1811,14 +1813,12 @@ void WFDSink::setupSession(const char* sdpDescription) {
   // Then, setup the "RTPSource"s for the session:
   MediaSubsessionIterator iter(*fSession);
   //MediaSubsession *subsession;
-  Boolean madeProgress = False;
   //char const* singleMediumToTest = singleMedium;
   envir() << "Setup RTP source for the session\n";
   MediaSubsession *ss = NULL;
   while ((ss = iter.next()) != NULL) {
     fSubsession = ss;
   }
-
 }
 void WFDSink::handleResponseBytes(int newBytesRead) {
   do {
